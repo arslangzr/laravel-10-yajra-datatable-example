@@ -14,7 +14,14 @@ class UsersDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->setRowId('id');
+        return (new EloquentDataTable($query))
+        ->editColumn('created_at', function(User $user){
+            return $user->created_at->diffForHumans();
+        })
+        ->editColumn('updated_at', function(User $user){
+            return $user->updated_at->diffForHumans();
+        })
+        ->setRowId('id');
     }
 
     public function query(User $model): QueryBuilder
